@@ -8,14 +8,45 @@ add_executable(SmashClone
         include/input.h
 )
 
+
+# include app's own headers
+target_include_directories(SmashClone
+        PRIVATE
+        include
+)
+
+# external includes
+target_include_directories(SmashClone
+        PRIVATE
+        ${CMAKE_SOURCE_DIR}/libs/imgui
+        ${CMAKE_SOURCE_DIR}/libs/imgui/backends
+        ${CMAKE_SOURCE_DIR}/libs/raylib
+        ${CMAKE_SOURCE_DIR}/libs/sdl2
+        ${CMAKE_SOURCE_DIR}/app/thirdparty/rlImGui
+)
+
+
+
+# main app source
 target_sources(SmashClone
     PRIVATE
         src/main.cpp
 )
 
-target_include_directories(SmashClone
+# Add source files from imgui
+target_sources(SmashClone
     PRIVATE
-        include
+        ${CMAKE_SOURCE_DIR}/libs/imgui/imgui.cpp
+        ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_draw.cpp
+        ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_tables.cpp
+        ${CMAKE_SOURCE_DIR}/libs/imgui/imgui_widgets.cpp
+        ${CMAKE_SOURCE_DIR}/libs/imgui/backends/imgui_impl_glfw.cpp
+        ${CMAKE_SOURCE_DIR}/libs/imgui/backends/imgui_impl_opengl3.cpp
+)
+
+target_sources(SmashClone
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/app/thirdparty/rlImGui/rlImGui.cpp
 )
 
 target_link_libraries(SmashClone
@@ -23,3 +54,4 @@ target_link_libraries(SmashClone
         raylib
         SDL2::SDL2
 )
+

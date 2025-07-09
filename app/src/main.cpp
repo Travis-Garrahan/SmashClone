@@ -1,6 +1,8 @@
 #include <animation.h>
-#include <raylib.h>
+#include "raylib.h"
 #include <input.h>
+#include "imgui.h"
+#include "rlImGui.h"
 
 int main() {
     // Initialization
@@ -12,15 +14,30 @@ int main() {
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
     SetTargetFPS(60);
 
+    rlImGuiSetup(true);
+
+    // Imgui Window setup, flags will make window transparent with no title
+    ImGuiWindowFlags window_flags =
+            ImGuiWindowFlags_NoTitleBar        // No title bar
+            | ImGuiWindowFlags_NoResize          // Disable resizing
+            | ImGuiWindowFlags_NoMove            // Disable moving
+            | ImGuiWindowFlags_NoScrollbar       // No scrollbars
+            | ImGuiWindowFlags_NoCollapse        // Disable collapsing
+            | ImGuiWindowFlags_NoSavedSettings   // Don’t save settings (position, size, etc.)
+            | ImGuiWindowFlags_NoFocusOnAppearing // Don’t steal focus when appearing
+            | ImGuiWindowFlags_NoNav;
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
     // Controller setup
     // --------------------------------------------------------------------------------------------
     SDL_GameController* controller = InitController();
-    SDL_GameControllerAddMapping("0300aa4e5e040000120b000009056800,Xbox Series X Controller,a:b0,b:b1,back:b8,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,leftshoulder:b4,leftstick:b6,lefttrigger:a2,leftx:a0,lefty:a1,misc1:b10,rightshoulder:b5,rightstick:b7,righttrigger:a5,rightx:a3,righty:a4,start:b9,x:b2,y:b3");
 
     float lx, ly;
     float rx, ry;
     InputState inputState;
-
 
     // --------------------------------------------------------------------------------------------
     // End controller setup
@@ -32,40 +49,32 @@ int main() {
         // Update
         //-----------------------------------------------------------------------------------------
         SDL_PumpEvents();
-
-        SDL_Joystick* joy = SDL_GameControllerGetJoystick(controller);
-
-        for (int i = 0; i < SDL_JoystickNumAxes(joy); i++) {
-            Sint16 val = SDL_JoystickGetAxis(joy, i);
-            if (abs(val) > 5000) {
-                printf("AXIS %d = %d\n", i, val);
-            }
-        }
-
-        for (int i = 0; i < SDL_JoystickNumButtons(joy); i++) {
-            if (SDL_JoystickGetButton(joy, i)) {
-                printf("BUTTON %d pressed\n", i);
-            }
-        }
-
-
+        PollInput(&inputState, controller);
 
         // Left Joystick
-        lx = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
-        ly = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
+        lx = inputState.left_joystick_x;
+        ly = inputState.left_joystick_y;
+
         // Right joystick
-        rx = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTX);
-        ry = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTY);
-        PollInput(&inputState, controller);
+        rx = inputState.right_joystick_x;
+        ry = inputState.right_joystick_y;
         //-----------------------------------------------------------------------------------------
         // End update
 
         // Draw
         //-----------------------------------------------------------------------------------------
         BeginDrawing();
+        rlImGuiBegin();
 
-        DrawCircle(lx * 0.01, ly * -0.01, 50, RED);
-        DrawCircle(rx * 0.01, ry * -0.01, 25, GREEN);
+
+        DrawCircle((int)(lx * 0.01), (int)(ly * -0.01), 50, RED);
+        DrawCircle((int)(rx * 0.01), (int)(ry * -0.01), 25, GREEN);
+
+
+        ImGui::SetNextWindowBgAlpha(0.0f);
+        ImGui::Begin("##NoDecoration", nullptr, window_flags);
+        ImGui::Button("Button");
+        ImGui::End();
 
         if(inputState.button_A_pressed)
         {
@@ -73,6 +82,10 @@ int main() {
         }
 
         ClearBackground(RAYWHITE);
+
+        ImGui::Render();
+
+        rlImGuiEnd();
         EndDrawing();
         //-----------------------------------------------------------------------------------------
         // End draw
@@ -81,6 +94,9 @@ int main() {
     // De-Initialization
     //---------------------------------------------------------------------------------------------
     SDL_GameControllerClose(controller);
+    rlImGuiShutdown();
+
+
     CloseWindow();        // Close window and OpenGL context
 
     //---------------------------------------------------------------------------------------------

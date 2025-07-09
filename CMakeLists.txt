@@ -28,5 +28,12 @@ CPMAddPackage(
             "USE_GRAPHICS GLFW"
 )
 
+CPMAddPackage(
+        NAME IMGUI
+        GITHUB_REPOSITORY ocornut/imgui
+        VERSION 1.92.0
+        SOURCE_DIR ${LIB_DIR}/imgui
+)
+
 
 add_subdirectory(app)

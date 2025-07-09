@@ -4,7 +4,7 @@
 
 
 #endif //SMASHCLONE_INPUT_H
-#include <raylib.h>
+#include "raylib.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_gamecontroller.h>
 

@@ -30,21 +30,23 @@ SDL_GameController* InitController()
     // End controller setup
 }
 
+float NormalizeAxis(Sint16 value)
+{
+    return (value < 0) ? (value / 32768.0f) : (value / 32767.0f);
+}
+
 void PollInput(InputState* input, SDL_GameController* controller)
 {
     // Set axis deadzones
-    const float leftStickDeadzoneX = 0.1f;
-    const float leftStickDeadzoneY = 0.1f;
-    const float rightStickDeadzoneX = 0.1f;
-    const float rightStickDeadzoneY = 0.1f;
-    const float leftTriggerDeadzone = -0.9f;
-    const float rightTriggerDeadzone = -0.9f;
+    float deadzone = 7000.0f;
 
+    // Buttons
     input->button_A_pressed = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A);
     input->button_B_pressed = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_B);
     input->button_X_pressed = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_X);
     input->button_Y_pressed = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_Y);
 
+    //
     input->left_joystick_x = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTX);
     input->left_joystick_y = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_LEFTY);
     input->right_joystick_x = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_RIGHTX);
@@ -53,18 +55,18 @@ void PollInput(InputState* input, SDL_GameController* controller)
     input->right_trigger = SDL_GameControllerGetAxis(controller, SDL_CONTROLLER_AXIS_TRIGGERRIGHT);
 
     // Calculate deadzones
-//    if(input->left_joystick_x > -leftStickDeadzoneX && input->left_joystick_x < leftStickDeadzoneX)
-//        input->left_joystick_x = 0.0f;
-//    if(input->left_joystick_y > -leftStickDeadzoneY && input->left_joystick_y < leftStickDeadzoneY)
-//        input->left_joystick_y = 0.0f;
-//
-//    if(input->right_joystick_x > -rightStickDeadzoneX && input->right_joystick_x < rightStickDeadzoneX)
-//        input->right_joystick_x = 0.0f;
-//    if(input->right_joystick_y > -rightStickDeadzoneY && input->right_joystick_y < rightStickDeadzoneY)
-//        input->right_joystick_y = 0.0f;
-//
-//    if(input->left_trigger < leftTriggerDeadzone)
-//        input->left_trigger = 0.0f;
-//    if(input->right_trigger < rightTriggerDeadzone)
-//        input->right_trigger = 0.0f;
+    if(fabs(input->left_joystick_x) < deadzone)
+        input->left_joystick_x = 0.0f;
+    if(fabs(input->left_joystick_y) < deadzone)
+        input->left_joystick_y = 0.0f;
+
+    if(fabs(input->right_joystick_x) < deadzone)
+        input->right_joystick_x = 0.0f;
+    if(fabs(input->right_joystick_y) < deadzone)
+        input->right_joystick_y = 0.0f;
+
+    if(input->left_trigger < deadzone)
+        input->left_trigger = 0.0f;
+    if(input->right_trigger < deadzone)
+        input->right_trigger = 0.0f;
 }

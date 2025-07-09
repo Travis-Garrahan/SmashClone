@@ -4,9 +4,6 @@
 
 #include "animation.h"
 
-#include <cstdlib>
-#include <cstring>
-
 void DrawAnimation(Animation animation, Rectangle dest, Vector2 origin, float rotation, Color tint)
 {
     int index = (int)(GetTime() * animation.fps) % animation.numFrames;

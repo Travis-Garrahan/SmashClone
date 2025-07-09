@@ -4,7 +4,7 @@
 
 #ifndef ANIMATION_H
 #define ANIMATION_H
-#include <raylib.h>
+#include "raylib.h"
 
 #endif //ANIMATION_H
 
