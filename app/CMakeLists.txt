@@ -6,6 +6,8 @@ add_executable(SmashClone
         include/animation.h
         src/input.cpp
         include/input.h
+        src/player.cpp
+        include/player.h
 )
 
 
@@ -21,7 +23,6 @@ target_include_directories(SmashClone
         ${CMAKE_SOURCE_DIR}/libs/imgui
         ${CMAKE_SOURCE_DIR}/libs/imgui/backends
         ${CMAKE_SOURCE_DIR}/libs/raylib
-        ${CMAKE_SOURCE_DIR}/libs/sdl2
         ${CMAKE_SOURCE_DIR}/app/thirdparty/rlImGui
 )
 
@@ -52,6 +53,5 @@ target_sources(SmashClone
 target_link_libraries(SmashClone
     PRIVATE
         raylib
-        SDL2::SDL2
 )
 

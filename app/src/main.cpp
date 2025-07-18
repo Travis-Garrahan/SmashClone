@@ -1,22 +1,28 @@
 #include <animation.h>
 #include "raylib.h"
 #include <input.h>
+#include <iostream>
+#include <player.h>
 #include "imgui.h"
 #include "rlImGui.h"
+
+int gamepad = 0;
 
 int main() {
     // Initialization
     //---------------------------------------------------------------------------------------------
-
-    // Window init
     constexpr int screenWidth = 800;
     constexpr int screenHeight = 450;
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
     SetTargetFPS(60);
-
     rlImGuiSetup(true);
 
+    const auto player = Player(R"(assets/player_run.png)", 100, 100);
+
+    std::cout << "Texture ID:" << player.texture.id << std::endl;
+
     // Imgui Window setup, flags will make window transparent with no title
+    // --------------------------------------------------------------------------------------------
     ImGuiWindowFlags window_flags =
             ImGuiWindowFlags_NoTitleBar        // No title bar
             | ImGuiWindowFlags_NoResize          // Disable resizing
@@ -30,17 +36,11 @@ int main() {
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-    // Controller setup
     // --------------------------------------------------------------------------------------------
-    SDL_GameController* controller = InitController();
+    // End Imgui setup
 
-    float lx, ly;
-    float rx, ry;
-    InputState inputState;
-
+    // Player Setup
     // --------------------------------------------------------------------------------------------
-    // End controller setup
 
     // Main game loop
     //---------------------------------------------------------------------------------------------
@@ -48,44 +48,21 @@ int main() {
     {
         // Update
         //-----------------------------------------------------------------------------------------
-        SDL_PumpEvents();
-        PollInput(&inputState, controller);
 
-        // Left Joystick
-        lx = inputState.left_joystick_x;
-        ly = inputState.left_joystick_y;
-
-        // Right joystick
-        rx = inputState.right_joystick_x;
-        ry = inputState.right_joystick_y;
         //-----------------------------------------------------------------------------------------
         // End update
 
         // Draw
         //-----------------------------------------------------------------------------------------
         BeginDrawing();
-        rlImGuiBegin();
-
-
-        DrawCircle((int)(lx * 0.01), (int)(ly * -0.01), 50, RED);
-        DrawCircle((int)(rx * 0.01), (int)(ry * -0.01), 25, GREEN);
-
-
-        ImGui::SetNextWindowBgAlpha(0.0f);
-        ImGui::Begin("##NoDecoration", nullptr, window_flags);
-        ImGui::Button("Button");
-        ImGui::End();
-
-        if(inputState.button_A_pressed)
-        {
-            DrawText(TextFormat("A button pressed"), 50, 50, 50, BLACK);
-        }
-
         ClearBackground(RAYWHITE);
 
+        rlImGuiBegin();
         ImGui::Render();
-
         rlImGuiEnd();
+
+        player.DrawPlayer();
+
         EndDrawing();
         //-----------------------------------------------------------------------------------------
         // End draw
@@ -93,13 +70,15 @@ int main() {
 
     // De-Initialization
     //---------------------------------------------------------------------------------------------
-    SDL_GameControllerClose(controller);
+
+
     rlImGuiShutdown();
 
 
     CloseWindow();        // Close window and OpenGL context
 
     //---------------------------------------------------------------------------------------------
+    // End De-Initialization
 
     return 0;
 }

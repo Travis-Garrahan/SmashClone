@@ -1,22 +1,26 @@
 //
 // Created by travis on 6/21/25.
 //
+#pragma once
 
-#ifndef ANIMATION_H
-#define ANIMATION_H
 #include "raylib.h"
+#include <vector>
 
-#endif //ANIMATION_H
-
-typedef struct Animation
+struct Frame
 {
-    Texture2D atlas;
-    int fps;
+    Rectangle sourceRect;
+    float duration = 1.0f;
+};
 
-    Rectangle* frames;
-    int numFrames;
-} Animation;
+struct Animation
+{
+    std::vector<Frame> frames;
+    float timer = 0.0f;
+    size_t currentFrame = 0;
 
-void DrawAnimation(Animation animation, Rectangle dest, Vector2 origin, float rotation, Color tint);
-Animation LoadAnimation(const Texture2D& atlas, int fps, int numFrames, float frameWidth, float frameHeight);
-void DisposeAnimation(Animation animation);
+    explicit Animation(const std::vector<Frame>& _frames);
+    void update();
+    [[nodiscard]] Frame getCurrentFrame() const;
+};
+
+

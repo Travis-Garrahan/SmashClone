@@ -1,48 +1,23 @@
-//
-// Created by travis on 6/21/25.
-//
-
 #include "animation.h"
 
-void DrawAnimation(Animation animation, Rectangle dest, Vector2 origin, float rotation, Color tint)
+Animation::Animation(const std::vector<Frame>& _frames)
 {
-    int index = (int)(GetTime() * animation.fps) % animation.numFrames;
-
-    Rectangle source = {animation.frames[index]};
-    DrawTexturePro(animation.atlas, source, dest, origin, rotation, tint);
+    frames = _frames;
 }
 
-Animation LoadAnimation(const Texture2D& atlas, const int fps, const int numFrames, const float frameWidth, const float frameHeight)
+void Animation::update()
 {
-    // instantiate animation struct with given parameters
-    Animation animation = {
-        .atlas = atlas,
-        .fps = fps,
-        .numFrames = numFrames
-    };
+    if (frames.empty()) return;
 
-    // allocate memory for frames to live in
-    Rectangle* mem = new Rectangle[numFrames];
-    animation.frames = mem;
-
-
-    // populate memory with frames (assumes horizontal strip)
-    for (int i = 0; i < numFrames; i++)
+    timer += GetFrameTime();
+    while (timer >= frames[currentFrame].duration)
     {
-        mem[i].x = static_cast<float>(i) * frameWidth;
-        mem[i].y = 0;
-        mem[i].width = frameWidth;
-        mem[i].height = frameHeight;
+        timer -= frames[currentFrame].duration;
+        currentFrame = (currentFrame + 1) % frames.size();
     }
-
-    // set dimensions of frame
-
-
-    return animation;
 }
 
-void DisposeAnimation(Animation animation)
+[[nodiscard]] Frame Animation::getCurrentFrame() const
 {
-    delete[] animation.frames;
+    return frames[currentFrame];
 }
-
