@@ -7,7 +7,6 @@ set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 
 include(cmake/cpm.cmake)
 
-
 CPMAddPackage(
         NAME RAYLIB
         GITHUB_REPOSITORY raysan5/raylib
@@ -25,6 +24,11 @@ CPMAddPackage(
         SOURCE_DIR ${LIB_DIR}/imgui
 )
 
-
+CPMAddPackage(
+        NAME NLOHMANN
+        GITHUB_REPOSITORY nlohmann/json
+        VERSION 3.12.0
+        SOURCE_DIR ${LIB_DIR}/nlohmann
+)
 
 add_subdirectory(app)
