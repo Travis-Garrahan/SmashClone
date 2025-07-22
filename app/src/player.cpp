@@ -4,17 +4,16 @@
 
 #include "player.h"
 
-Player::Player(const char* textureFilePath, const float initPosX, const float initPosY)
+Player::Player(const char* textureFilePath, float _playerHeight, float _playerWidth, int _speed)
 {
     texture = LoadTexture(textureFilePath);
-    posX = initPosX;
-    posY = initPosY;
-    speed = 0;
+    height = _playerHeight;
+    width = _playerWidth;
+    speed = _speed;
 }
 
-void Player::DrawPlayer() const
+void Player::draw() const
 {
-    auto textureRect = (Rectangle){0, 0, static_cast<float>(texture.width), static_cast<float>(texture.height)};
-    auto destRect = (Rectangle){posX, posY, 300, 300};
-    DrawTexturePro(texture, textureRect, destRect, (Vector2){0, 0,}, 0.0f, WHITE);
+    DrawTexture(texture, 100, 100 ,WHITE);
 }
+

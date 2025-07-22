@@ -6,21 +6,37 @@
 #include "raylib.h"
 #include <vector>
 
-struct Frame
+enum Direction
 {
-    Rectangle sourceRect;
-    float duration = 1.0f;
+    FORWARD,
+    BACKWARD,
 };
 
-struct Animation
+enum AnimationType
 {
-    std::vector<Frame> frames;
-    float timer = 0.0f;
-    size_t currentFrame = 0;
+    REPEATING,
+    ONESHOT,
+};
 
-    explicit Animation(const std::vector<Frame>& _frames);
-    void update();
-    [[nodiscard]] Frame getCurrentFrame() const;
+
+class Animation
+{
+    Texture2D texture;
+    Rectangle frameRec; // frameRec will get dimensions from texture.x, texture.y, etc
+    Vector2 position;
+
+    unsigned int framesPerSecond;
+    unsigned int numFrames;
+    unsigned int currentFrame;
+
+    Vector2 origin;
+    float rotation;
+    Color tint;
+
+public:
+    Animation(Texture2D _texture, unsigned int _framesPerSecond, unsigned int _numFrames, float frameHeight, float frameWidth);
+    void UpdateAnimation();
+    void DrawAnimation() const;
 };
 
 

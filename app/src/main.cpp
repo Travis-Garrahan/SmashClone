@@ -17,9 +17,6 @@ int main() {
     SetTargetFPS(60);
     rlImGuiSetup(true);
 
-    const auto player = Player(R"(assets/player_run.png)", 100, 100);
-
-    std::cout << "Texture ID:" << player.texture.id << std::endl;
 
     // Imgui Window setup, flags will make window transparent with no title
     // --------------------------------------------------------------------------------------------
@@ -41,6 +38,15 @@ int main() {
 
     // Player Setup
     // --------------------------------------------------------------------------------------------
+    float playerHeight = 64;
+    float playerWidth = 64;
+    int speed = 5;
+    const auto player = Player(R"(assets/player_run.png)", playerHeight, playerWidth, speed);
+    std::cout << "Texture ID:" << player.texture.id << std::endl;
+
+    int animationFPS = 12;
+    int numFrames = 5;
+    Animation animation(player.texture, animationFPS, numFrames, player.height, player.width);
 
     // Main game loop
     //---------------------------------------------------------------------------------------------
@@ -48,7 +54,7 @@ int main() {
     {
         // Update
         //-----------------------------------------------------------------------------------------
-
+        animation.UpdateAnimation();
         //-----------------------------------------------------------------------------------------
         // End update
 
@@ -61,7 +67,8 @@ int main() {
         ImGui::Render();
         rlImGuiEnd();
 
-        player.DrawPlayer();
+        animation.DrawAnimation();
+
 
         EndDrawing();
         //-----------------------------------------------------------------------------------------

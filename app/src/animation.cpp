@@ -1,23 +1,39 @@
 #include "animation.h"
 
-Animation::Animation(const std::vector<Frame>& _frames)
+static int framesCounter = 0;
+
+Animation::Animation(Texture2D _texture, unsigned int _framesPerSecond, unsigned int _numFrames, float frameHeight, float frameWidth)
 {
-    frames = _frames;
+    texture = _texture;
+
+    frameRec = (Rectangle){0, 0, frameHeight, frameWidth};
+    framesPerSecond = _framesPerSecond;
+    numFrames = _numFrames;
+
+    currentFrame = 0;
+    origin = {0,0};
+    rotation = 0.0f;
+    tint = WHITE;
+
+    position = {100, 100};
 }
 
-void Animation::update()
+void Animation::UpdateAnimation()
 {
-    if (frames.empty()) return;
-
-    timer += GetFrameTime();
-    while (timer >= frames[currentFrame].duration)
+    framesCounter++;
+    if(framesCounter >= (60/framesPerSecond))
     {
-        timer -= frames[currentFrame].duration;
-        currentFrame = (currentFrame + 1) % frames.size();
+        framesCounter = 0;
+        currentFrame++;
+
+        if(currentFrame >= numFrames) currentFrame = 0;
+
+        frameRec.x = (float)currentFrame*(float)frameRec.width;
     }
 }
 
-[[nodiscard]] Frame Animation::getCurrentFrame() const
+void Animation::DrawAnimation() const
 {
-    return frames[currentFrame];
+    DrawTextureRec(texture, frameRec, position, tint);
 }
+

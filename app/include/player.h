@@ -17,15 +17,16 @@ enum PlayerState
 class Player
 {
 public:
-    Texture texture{};
+    Texture texture;
     //PlayerState state;
-    float posX;
-    float posY;
-    int speed;
-   //Animation animations[];
 
-    Player(const char *textureFilePath, float initPosX, float initPosY);;
-    void DrawPlayer() const;
+    float height;
+    float width;
+    int speed;
+   //Animation animations[]
+
+    Player(const char *textureFilePath, float _playerHeight, float _playerWidth, int _speed);
+    void draw() const;
 };
 
 
