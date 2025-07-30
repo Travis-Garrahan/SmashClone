@@ -2,9 +2,9 @@
 
 static int framesCounter = 0;
 
-Animation::Animation(Texture2D _texture, unsigned int _framesPerSecond, unsigned int _numFrames, float frameHeight, float frameWidth)
+Animation::Animation(Texture2D _spriteSheet, unsigned int _framesPerSecond, unsigned int _numFrames, float frameHeight, float frameWidth)
 {
-    texture = _texture;
+    spriteSheet = _spriteSheet;
 
     frameRec = (Rectangle){0, 0, frameHeight, frameWidth};
     framesPerSecond = _framesPerSecond;
@@ -34,6 +34,7 @@ void Animation::UpdateAnimation()
 
 void Animation::DrawAnimation() const
 {
-    DrawTextureRec(texture, frameRec, position, tint);
+    //TODO: use DrawTexturePro() instead
+    DrawTextureRec(spriteSheet, frameRec, position, tint);
 }
 

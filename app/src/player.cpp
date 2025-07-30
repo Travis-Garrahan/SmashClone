@@ -17,3 +17,8 @@ void Player::draw() const
     DrawTexture(texture, 100, 100 ,WHITE);
 }
 
+Texture2D Player::GetTexture() const
+{
+    return this->texture;
+}
+

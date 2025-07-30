@@ -6,8 +6,6 @@
 #include "imgui.h"
 #include "rlImGui.h"
 
-int gamepad = 0;
-
 int main() {
     // Initialization
     //---------------------------------------------------------------------------------------------
@@ -16,7 +14,6 @@ int main() {
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
     SetTargetFPS(60);
     rlImGuiSetup(true);
-
 
     // Imgui Window setup, flags will make window transparent with no title
     // --------------------------------------------------------------------------------------------
@@ -38,15 +35,17 @@ int main() {
 
     // Player Setup
     // --------------------------------------------------------------------------------------------
+    // TODO: Implement JSON player config files
     float playerHeight = 64;
     float playerWidth = 64;
     int speed = 5;
     const auto player = Player(R"(assets/player_run.png)", playerHeight, playerWidth, speed);
-    std::cout << "Texture ID:" << player.texture.id << std::endl;
+    std::cout << "Texture ID:" << player.GetTexture().id << std::endl;
 
+    //
     int animationFPS = 12;
     int numFrames = 5;
-    Animation animation(player.texture, animationFPS, numFrames, player.height, player.width);
+    Animation animation(player.GetTexture(), animationFPS, numFrames, player.height, player.width);
 
     // Main game loop
     //---------------------------------------------------------------------------------------------
@@ -65,11 +64,10 @@ int main() {
 
         rlImGuiBegin();
         ImGui::Render();
-        rlImGuiEnd();
-
+        // draw here...
         animation.DrawAnimation();
 
-
+        rlImGuiEnd();
         EndDrawing();
         //-----------------------------------------------------------------------------------------
         // End draw
@@ -77,11 +75,7 @@ int main() {
 
     // De-Initialization
     //---------------------------------------------------------------------------------------------
-
-
     rlImGuiShutdown();
-
-
     CloseWindow();        // Close window and OpenGL context
 
     //---------------------------------------------------------------------------------------------

@@ -21,22 +21,23 @@ enum AnimationType
 
 class Animation
 {
-    Texture2D texture;
-    Rectangle frameRec; // frameRec will get dimensions from texture.x, texture.y, etc
-    Vector2 position;
+public:
+    Animation(Texture2D _spriteSheet, unsigned int _framesPerSecond, unsigned int _numFrames, float frameHeight, float frameWidth);
+    void UpdateAnimation();
+    void DrawAnimation() const;
+
+private:
+    Texture2D spriteSheet{};
+    Rectangle frameRec{}; // frameRec will get dimensions from texture.x, texture.y, etc
+    Vector2 position{};
 
     unsigned int framesPerSecond;
     unsigned int numFrames;
     unsigned int currentFrame;
 
-    Vector2 origin;
+    Vector2 origin{};
     float rotation;
-    Color tint;
-
-public:
-    Animation(Texture2D _texture, unsigned int _framesPerSecond, unsigned int _numFrames, float frameHeight, float frameWidth);
-    void UpdateAnimation();
-    void DrawAnimation() const;
+    Color tint{};
 };
 
 
