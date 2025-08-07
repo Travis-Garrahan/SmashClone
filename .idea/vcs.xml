@@ -3,6 +3,9 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/app/thirdparty/rlImGui" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/thirdparty/rlImGui/rlImGui" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/imgui" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/libs/nlohmann" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/libs/raylib" vcs="Git" />
   </component>
 </project>

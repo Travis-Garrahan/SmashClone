@@ -35,17 +35,13 @@ int main() {
 
     // Player Setup
     // --------------------------------------------------------------------------------------------
-    // TODO: Implement JSON player config files
-    float playerHeight = 64;
-    float playerWidth = 64;
-    int speed = 5;
-    const auto player = Player(R"(assets/player_run.png)", playerHeight, playerWidth, speed);
-    std::cout << "Texture ID:" << player.GetTexture().id << std::endl;
+    Player player(R"(assets/stikmin_idle/idle_sheet.png)",
+        R"(assets/attributes/animation.json)",
+        128.0f, 128.0f, 5,
+        (Rectangle){200, 200, 128.0f, 128.0f});
 
-    //
-    int animationFPS = 12;
-    int numFrames = 5;
-    Animation animation(player.GetTexture(), animationFPS, numFrames, player.height, player.width);
+
+    std::cout << player.animationHandler.getCurrentAnimation().numFrames << std::endl;
 
     // Main game loop
     //---------------------------------------------------------------------------------------------
@@ -53,7 +49,7 @@ int main() {
     {
         // Update
         //-----------------------------------------------------------------------------------------
-        animation.UpdateAnimation();
+        player.animationHandler.updateAnimation();
         //-----------------------------------------------------------------------------------------
         // End update
 
@@ -65,7 +61,7 @@ int main() {
         rlImGuiBegin();
         ImGui::Render();
         // draw here...
-        animation.DrawAnimation();
+        player.drawPlayer();
 
         rlImGuiEnd();
         EndDrawing();

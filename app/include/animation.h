@@ -3,8 +3,9 @@
 //
 #pragma once
 
-#include "raylib.h"
 #include <vector>
+#include <raylib.h>
+#include <nlohmann/json.hpp>
 
 enum Direction
 {
@@ -19,25 +20,28 @@ enum AnimationType
 };
 
 
-class Animation
+struct Animation
 {
-public:
-    Animation(Texture2D _spriteSheet, unsigned int _framesPerSecond, unsigned int _numFrames, float frameHeight, float frameWidth);
-    void UpdateAnimation();
-    void DrawAnimation() const;
-
-private:
-    Texture2D spriteSheet{};
-    Rectangle frameRec{}; // frameRec will get dimensions from texture.x, texture.y, etc
-    Vector2 position{};
-
+    Animation(std::string _name, unsigned int _framesPerSecond, unsigned int _numFrames, float frameHeight, float frameWidth);
+    std::string name;
+    unsigned int currentFrame;
+    Rectangle frameRecSize{};
     unsigned int framesPerSecond;
     unsigned int numFrames;
-    unsigned int currentFrame;
-
-    Vector2 origin{};
-    float rotation;
-    Color tint{};
+    bool isDefault;
 };
 
+class AnimationHandler
+{
+public:
+    explicit AnimationHandler(const char* filePath);
+    void updateAnimation();
+    void setCurrentAnimation(const std::string& name);
+    [[nodiscard]] Animation getCurrentAnimation() const;
+    void drawAnimation(const Texture2D &spriteSheet, Rectangle dest) const;
 
+private:
+    std::vector<Animation> animations;
+    int currentAnimationIndex = 0;
+    float frameTime = 0.0f;
+};

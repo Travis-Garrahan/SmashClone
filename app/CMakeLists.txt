@@ -53,5 +53,6 @@ target_sources(SmashClone
 target_link_libraries(SmashClone
     PRIVATE
         raylib
+        nlohmann_json::nlohmann_json
 )
 

@@ -18,16 +18,23 @@ enum PlayerState
 class Player
 {
 public:
-    Player(const char *textureFilePath, float _playerHeight, float _playerWidth, int _speed);
-    void draw() const;
-    Texture2D GetTexture() const;
+    Player(const char *textureFilePath, const char *animationJSONpath, float _playerHeight, float _playerWidth, int _speed, Rectangle _position);
+    void drawPlayer() const;
+
+    [[nodiscard]] Texture2D GetTexture() const;
+    [[nodiscard]] PlayerState GetState() const;
+    // set state depending on input
+    // void SetState(PlayerState state);
+
+    AnimationHandler animationHandler;
     float height;
     float width;
     int speed;
-private:
-    // TODO: Implement PlayerState member and Animation hashmap.
-    Texture texture{};
+    Rectangle position;
 
+private:
+    Texture texture{};
+    PlayerState state;
 };
 
 

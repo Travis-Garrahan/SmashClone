@@ -24,11 +24,6 @@ CPMAddPackage(
         SOURCE_DIR ${LIB_DIR}/imgui
 )
 
-CPMAddPackage(
-        NAME NLOHMANN
-        GITHUB_REPOSITORY nlohmann/json
-        VERSION 3.12.0
-        SOURCE_DIR ${LIB_DIR}/nlohmann
-)
+CPMAddPackage("gh:nlohmann/json@3.12.0")
 
 add_subdirectory(app)

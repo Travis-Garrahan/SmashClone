@@ -1,0 +1,12 @@
+{
+  "animations": [
+  {
+    "name": "idle",
+    "frames_per_second": 2,
+    "num_frames": 2,
+    "frame_width": 128,
+    "frame_height": 128,
+    "default": true
+  }
+  ]
+}
