@@ -22,7 +22,7 @@ Animation::Animation(std::string _name,
     }
 }
 
-void AnimationHandler::setCurrentAnimation(const std::string& name)
+void AnimationHandler::setCurrentAnimation(std::string_view name)
 {
     for (size_t i = 0; i < animations.size(); i++)
     {

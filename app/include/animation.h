@@ -36,7 +36,7 @@ class AnimationHandler
 public:
     explicit AnimationHandler(const char* filePath);
     void updateAnimation();
-    void setCurrentAnimation(const std::string& name);
+    void setCurrentAnimation(std::string_view name);
     [[nodiscard]] Animation getCurrentAnimation() const;
     void drawAnimation(const Texture2D &spriteSheet, Rectangle dest) const;
 
