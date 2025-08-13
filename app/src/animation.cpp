@@ -33,7 +33,7 @@ void AnimationHandler::setCurrentAnimation(std::string_view name)
         }
     }
 
-    throw std::runtime_error("Animation name '" + name + "' not found");
+    //throw std::runtime_error("Animation name '" + name + "' not found");
 }
 
 Animation AnimationHandler::getCurrentAnimation() const
