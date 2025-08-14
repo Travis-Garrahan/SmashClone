@@ -3,8 +3,3 @@
 //
 
 #include "input.h"
-
-void InitController(const int &gamepad)
-{
-
-}

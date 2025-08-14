@@ -1,6 +1,5 @@
 #include <animation.h>
 #include "raylib.h"
-#include <input.h>
 #include <iostream>
 #include <player.h>
 #include "imgui.h"
@@ -35,9 +34,9 @@ int main() {
 
     // Player Setup
     // --------------------------------------------------------------------------------------------
-    Player player(R"(assets/stikmin_idle/idle_sheet.png)",
+    Player player(R"(assets/run sheet.png)",
         R"(assets/attributes/animation.json)",
-        128.0f, 128.0f, 5,
+        512.0f, 512.0f, 5,
         (Rectangle){200, 200, 128.0f, 128.0f});
 
 
@@ -47,9 +46,9 @@ int main() {
     //---------------------------------------------------------------------------------------------
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
-        // Update
         //-----------------------------------------------------------------------------------------
         player.animationHandler.updateAnimation();
+        // Update
         //-----------------------------------------------------------------------------------------
         // End update
 

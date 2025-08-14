@@ -16,7 +16,7 @@ Player::Player(const char* textureFilePath,
     width = _playerWidth;
     speed = _speed;
     position = _position;
-    state = IDLE;
+    state_ = nullptr;
 }
 
 void Player::drawPlayer() const
@@ -24,18 +24,15 @@ void Player::drawPlayer() const
     animationHandler.drawAnimation(texture, position);
 }
 
-Texture2D Player::GetTexture() const
+void Player::handleInput(Input input)
 {
-    return this->texture;
+    state_->handleInput(*this, input);
 }
 
-PlayerState Player::GetState() const
+void Player::update()
 {
-    return this->state;
+    state_->update(*this);
 }
 
-// void Player::SetState(PlayerState _state)
-// {
-//     this->state = _state;
-// }
+
 

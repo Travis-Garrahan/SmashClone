@@ -5,14 +5,17 @@
 #pragma once
 #include <raylib.h>
 #include "animation.h"
+#include "input.h"
 
+
+class Player;
 // TODO: Implement player state classes
-enum PlayerState
+class PlayerState
 {
-    IDLE = 0,
-    RUNNING = 1,
-    JUMPING = 2,
-    ATTACKING = 3
+public:
+    virtual ~PlayerState() {}
+    virtual void handleInput(Player& player, Input input) {}
+    virtual void update(Player& player) {}
 };
 
 class Player
@@ -21,8 +24,10 @@ public:
     Player(const char *textureFilePath, const char *animationJSONpath, float _playerHeight, float _playerWidth, int _speed, Rectangle _position);
     void drawPlayer() const;
 
-    [[nodiscard]] Texture2D GetTexture() const;
-    [[nodiscard]] PlayerState GetState() const;
+
+    virtual ~Player() {}
+    virtual void handleInput(Input input);
+    virtual void update();
     // set state depending on input
     // void SetState(PlayerState state);
 
@@ -34,7 +39,12 @@ public:
 
 private:
     Texture texture{};
-    PlayerState state;
+    PlayerState* state_;
 };
 
-
+class IdleState : public PlayerState
+{
+public:
+    void handleInput(Player& player, Input input) override;
+    void update(Player& player) override;
+};

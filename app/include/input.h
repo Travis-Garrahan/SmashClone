@@ -5,4 +5,7 @@
 
 #include "raylib.h"
 
-void InitController(const int &gamepad);
+class Input
+{
+
+};

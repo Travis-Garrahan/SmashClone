@@ -6,7 +6,15 @@
     "num_frames": 2,
     "frame_width": 128,
     "frame_height": 128,
-    "default": true
-  }
+    "default": false
+  },
+    {
+      "name": "run",
+      "frames_per_second": 23,
+      "num_frames": 10,
+      "frame_width": 512,
+      "frame_height": 512,
+      "default": true
+    }
   ]
 }
