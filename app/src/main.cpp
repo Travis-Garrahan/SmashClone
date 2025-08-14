@@ -1,4 +1,3 @@
-#include <animation.h>
 #include "raylib.h"
 #include <iostream>
 #include <player.h>

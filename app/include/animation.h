@@ -7,18 +7,6 @@
 #include <raylib.h>
 #include <nlohmann/json.hpp>
 
-enum Direction
-{
-    FORWARD,
-    BACKWARD,
-};
-
-enum AnimationType
-{
-    REPEATING,
-    ONESHOT,
-};
-
 
 struct Animation
 {

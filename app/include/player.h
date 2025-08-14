@@ -7,7 +7,6 @@
 #include "animation.h"
 #include "input.h"
 
-
 class Player;
 // TODO: Implement player state classes
 class PlayerState
