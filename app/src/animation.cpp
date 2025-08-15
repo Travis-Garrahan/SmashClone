@@ -1,20 +1,18 @@
 #include "animation.h"
 #include <fstream>
 #include <iostream>
-#include <vector>
 
 void AnimationHandler::setCurrentAnimation(std::string_view name)
 {
-    for (size_t i = 0; i < animations.size(); i++)
+    auto it = animationMap.find(std::string(name));
+    if (it != animationMap.end())
     {
-        if (animations[i].name == name)
-        {
-            currentAnimationIndex = static_cast<int>(i);
-            return;
-        }
+        currentAnimation = &it->second;
     }
-
-    throw std::runtime_error("Animation name '" + static_cast<std::string>(name) + "' not found");
+    else
+    {
+        throw std::runtime_error("Animation name '" + static_cast<std::string>(name) + "' not found");
+    }
 }
 
 
@@ -29,17 +27,11 @@ AnimationHandler::AnimationHandler(const char* filePath)
     nlohmann::json json;
     file >> json;
 
-    int defaultIndex = -1; // sentinel value
 
-    const auto& charData = json["redman"];
-    const auto& animArray = charData["animations"];
 
-    animations.reserve(animArray.size());
-    for (const auto& animData : animArray)
+    for (const auto& animData : json["redman"]["animations"])
     {
-        animations.emplace_back(
-            Animation
-            {
+            Animation anim{
                 animData["name"].get<std::string>(),                  // name
                 animData["frames_per_second"].get<unsigned int>(),    // framesPerSecond
                 animData["num_frames"].get<unsigned int>(),           // numFrames
@@ -51,39 +43,29 @@ AnimationHandler::AnimationHandler(const char* filePath)
                 animData["frame_height"].get<unsigned int>(),         // frameHeight
                 animData.value("default", false),      // isDefault
                 0                                                     // currentFrame
-            }
-        );
+            };
+        animationMap[anim.name] = anim;
 
-        if (animData.value("default", false))
-        {
-            defaultIndex = static_cast<int>(animations.size()) - 1;
-        }
+        if (anim.isDefault && !currentAnimation)
+            currentAnimation = &animationMap[anim.name];
     }
-    // Fallback to first animation if no default is specified
-    if (defaultIndex == -1 && !animations.empty())
-    {
-        defaultIndex = 0;
-        TraceLog(LOG_WARNING, "No default animation specified");
-    }
-
-    currentAnimationIndex = defaultIndex;
 }
 
 void AnimationHandler::updateAnimation()
 {
     // null check
-    if (animations[currentAnimationIndex].framesPerSecond == 0)
+    if (!currentAnimation || currentAnimation->framesPerSecond == 0)
     {
-        std::cout << "currentAnimation null" << std::endl;
+        std::cout << "currentAnimation null or FPS = 0" << std::endl;
         return;
     }
 
-    Animation& anim = animations[currentAnimationIndex];
+    Animation& anim = *currentAnimation;
 
     frameTime += GetFrameTime();
-    float frameDuration = 1.0f / static_cast<float>(animations[currentAnimationIndex].framesPerSecond);
+    float frameDuration = 1.0f / static_cast<float>(anim.framesPerSecond);
 
-    while (frameTime >= frameDuration)
+    if (frameTime >= frameDuration)
     {
         frameTime -= frameDuration;
         anim.currentFrame = (anim.currentFrame + 1) % anim.numFrames;
@@ -93,7 +75,7 @@ void AnimationHandler::updateAnimation()
 void AnimationHandler::drawAnimation(const Texture2D &spriteSheet, const Rectangle dest) const
 {
     DrawTexturePro(spriteSheet,
-        animations[currentAnimationIndex].getFrameRec(),
+        currentAnimation->getFrameRec(),
         dest,
         {0,0},
         0.0f, WHITE);

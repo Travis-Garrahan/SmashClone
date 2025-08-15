@@ -2,8 +2,6 @@
 // Created by travis on 6/21/25.
 //
 #pragma once
-
-#include <vector>
 #include <raylib.h>
 #include <nlohmann/json.hpp>
 
@@ -46,6 +44,6 @@ public:
     void drawAnimation(const Texture2D &spriteSheet, Rectangle dest) const;
 
 private:
-    std::vector<Animation> animations;
+    std::unordered_map<std::string, Animation> animationMap;
     int currentAnimationIndex{};
 };

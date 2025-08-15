@@ -48,7 +48,7 @@ public:
     float height;
     float width;
     int speed;
-    Rectangle position;
+    Rectangle position{};
 
 private:
     Texture texture{};
