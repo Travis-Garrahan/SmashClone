@@ -2,7 +2,7 @@
 #define SMASHCLONE_INPUT_H
 
 #endif //SMASHCLONE_INPUT_H
-
+#pragma once
 #include "raylib.h"
 
 struct Input
@@ -12,13 +12,13 @@ struct Input
     bool jump = false;
     bool attack = false;
 
-    void update()
-    {
-        moveLeft = IsKeyDown(KEY_LEFT);
-        moveRight = IsKeyDown(KEY_RIGHT);
-        jump = IsKeyDown(KEY_SPACE);
-        attack = IsKeyDown(KEY_M);
-    }
-
-    bool isMoving() const {return moveLeft || moveRight;}
+    [[nodiscard]] bool isMoving() const {return moveLeft || moveRight;}
 };
+
+inline Input pollInput()
+{
+    Input input;
+    input.moveLeft = IsKeyDown(KEY_LEFT);
+    input.moveRight = IsKeyDown(KEY_RIGHT);
+    return input;
+}

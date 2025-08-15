@@ -14,7 +14,7 @@
                 "default": true
             },
             {
-                "name": "run",
+                "name": "running",
                 "frames_per_second": 23,
                 "num_frames": 12,
                 "x": 0,

@@ -2,6 +2,8 @@
 // Created by travis on 7/9/25.
 //
 #include "player.h"
+#include "states.h"
+#include <fstream>
 
 Player::Player(
                const char* animationJSONpath,
@@ -9,13 +11,14 @@ Player::Player(
                const float _playerWidth,
                const int _speed,
                const Rectangle _position)
-    : animationHandler(animationJSONpath)
+    : animationHandler(animationJSONpath),
+    currentState(&idleState)
 {
     std::ifstream file("assets/attributes/player_animation_data.json");
     nlohmann::json j;
     file >> j;
 
-    auto atlasPath = j["redman"]["atlas"].get<std::string>();
+    const auto& atlasPath = j["redman"]["atlas"].get<std::string>();
 
     texture = LoadTexture(atlasPath.c_str());
     height = _playerHeight;
@@ -24,35 +27,25 @@ Player::Player(
     position = _position;
 }
 
+
 void Player::drawPlayer() const
 {
     animationHandler.drawAnimation(texture, position);
 }
 
-void Player::changeState(PlayerStateName newState)
+void Player::changeState(PlayerState* newState)
 {
-    delete state_;
-
-    switch (newState)
-    {
-    case PlayerStateName::Idle:
-        state_ = new IdleState();
-        break;
-    case PlayerStateName::Running:
-        state_ = new RunningState();
-    default: ;
-    }
+    currentState = newState;
 }
-
 
 void Player::handleInput(Input input)
 {
-    state_->handleInput(*this, input);
+    currentState->handleInput(*this, input);
 }
 
 void Player::update(Input input)
 {
-    state_->update(*this, input);
+    currentState->update(*this, input);
 }
 
 

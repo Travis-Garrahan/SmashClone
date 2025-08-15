@@ -34,7 +34,7 @@ int main() {
     // Player Setup
     // --------------------------------------------------------------------------------------------
     Player player(R"(assets/attributes/player_animation_data.json)",
-        512.0f, 512.0f, 5,
+        512.0f, 512.0f, 200,
         (Rectangle){200, 200, 128.0f, 128.0f});
 
 
@@ -42,6 +42,9 @@ int main() {
     //---------------------------------------------------------------------------------------------
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+        Input input = pollInput();
+        player.handleInput(input);
+        player.update(input);
         //-----------------------------------------------------------------------------------------
         player.animationHandler.updateAnimation();
         // Update
