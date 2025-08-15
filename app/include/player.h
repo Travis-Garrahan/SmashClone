@@ -30,7 +30,7 @@ class PlayerState
 public:
     virtual ~PlayerState() {}
     virtual void handleInput(Player& player, Input input) {}
-    virtual void update(Player& player) {}
+    virtual void update(Player& player, Input input) {}
 };
 
 class Player
@@ -42,7 +42,7 @@ public:
 
     virtual ~Player() = default;
     virtual void handleInput(Input input);
-    virtual void update();
+    virtual void update(Input input);
 
     AnimationHandler animationHandler;
     float height;
@@ -59,15 +59,38 @@ private:
 class IdleState : public PlayerState
 {
 public:
-    void handleInput(Player& player, Input input) override;
-    void update(Player& player) override;
+    void handleInput(Player& player, Input input) override
+    {
+        if (input.isMoving())
+        {
+            player.changeState(PlayerStateName::Running);
+        }
+    };
+    void update(Player& player, Input input) override
+    {
+        player.animationHandler.setCurrentAnimation("idle");
+    };
 };
 
 class RunningState : public PlayerState
 {
 public:
-    void handleInput(Player& player, Input input) override;
-    void update(Player& player) override;
+    void handleInput(Player& player, Input input) override
+    {
+        if (!input.isMoving())
+        {
+            player.changeState(PlayerStateName::Idle);
+        }
+    }
+    void update(Player& player, Input input) override
+    {
+        player.animationHandler.setCurrentAnimation("running");
+
+        if (input.moveLeft) player.position.x -= static_cast<float>(player.speed) * GetFrameTime();
+        if (input.moveRight) player.position.x += static_cast<float>(player.speed) * GetFrameTime();
+    }
+
+
 };
 
 

@@ -32,6 +32,20 @@ void Player::drawPlayer() const
     animationHandler.drawAnimation(texture, position);
 }
 
+void Player::changeState(PlayerStateName newState)
+{
+    delete state_;
+
+    switch (newState)
+    {
+    case PlayerStateName::Idle:
+        state_ = new IdleState();
+        break;
+    case PlayerStateName::Running:
+        state_ = new RunningState();
+    default: ;
+    }
+}
 
 
 void Player::handleInput(Input input)
@@ -39,9 +53,9 @@ void Player::handleInput(Input input)
     state_->handleInput(*this, input);
 }
 
-void Player::update()
+void Player::update(Input input)
 {
-    state_->update(*this);
+    state_->update(*this, input);
 }
 
 
