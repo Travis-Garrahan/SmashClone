@@ -15,12 +15,9 @@ Player::Player(
     nlohmann::json j;
     file >> j;
 
-    for (auto& [stateName, data]: j.items())
-    {
-        texturePaths[stringToState[stateName]] = data["atlas"].get<std::string>();
-    }
+    auto atlasPath = j["redman"]["atlas"].get<std::string>();
 
-    texture = LoadTexture(texturePaths.at(PlayerStateName::Idle).c_str());
+    texture = LoadTexture(atlasPath.c_str());
     height = _playerHeight;
     width = _playerWidth;
     speed = _speed;

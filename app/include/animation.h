@@ -47,5 +47,5 @@ public:
 
 private:
     std::vector<Animation> animations;
-    int currentAnimationIndex = 0;
+    int currentAnimationIndex{};
 };

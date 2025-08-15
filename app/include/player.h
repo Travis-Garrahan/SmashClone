@@ -52,7 +52,7 @@ public:
 
 private:
     Texture texture{};
-    std::unordered_map<PlayerStateName, std::string> texturePaths;
+    std::unordered_map<PlayerStateName, std::string> texturePath;
     PlayerState* state_;
 };
 
@@ -89,8 +89,6 @@ public:
         if (input.moveLeft) player.position.x -= static_cast<float>(player.speed) * GetFrameTime();
         if (input.moveRight) player.position.x += static_cast<float>(player.speed) * GetFrameTime();
     }
-
-
 };
 
 

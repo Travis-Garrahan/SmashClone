@@ -3,7 +3,6 @@
 #include <iostream>
 #include <vector>
 
-
 void AnimationHandler::setCurrentAnimation(std::string_view name)
 {
     for (size_t i = 0; i < animations.size(); i++)
