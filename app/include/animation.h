@@ -37,9 +37,9 @@ class AnimationHandler
 {
 public:
     explicit AnimationHandler(const char* filePath);
-    Texture2D atlas;
-    Animation* currentAnimation;
-    float frameTime;
+    Texture2D atlas{};
+    Animation* currentAnimation{};
+    float frameTime{};
 
     void updateAnimation();
     void setCurrentAnimation(std::string_view name);

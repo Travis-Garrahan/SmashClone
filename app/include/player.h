@@ -40,7 +40,7 @@ public:
     void drawPlayer() const;
     void changeState(PlayerStateName newState);
 
-    virtual ~Player() {}
+    virtual ~Player() = default;
     virtual void handleInput(Input input);
     virtual void update();
 

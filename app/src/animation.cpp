@@ -58,15 +58,14 @@ AnimationHandler::AnimationHandler(const char* filePath)
 
         if (animData.value("default", false))
         {
-            defaultIndex = (animData["default"].get<int>());
+            defaultIndex = static_cast<int>(animations.size()) - 1;
         }
-
-        // Fallback to first animation if no default is specified
-        if (defaultIndex == -1 && !animations.empty())
-        {
-            defaultIndex = 0;
-            TraceLog(LOG_WARNING, "No default animation specified");
-        }
+    }
+    // Fallback to first animation if no default is specified
+    if (defaultIndex == -1 && !animations.empty())
+    {
+        defaultIndex = 0;
+        TraceLog(LOG_WARNING, "No default animation specified");
     }
 
     currentAnimationIndex = defaultIndex;
@@ -81,19 +80,15 @@ void AnimationHandler::updateAnimation()
         return;
     }
 
+    Animation& anim = animations[currentAnimationIndex];
+
     frameTime += GetFrameTime();
     float frameDuration = 1.0f / animations[currentAnimationIndex].framesPerSecond;
 
-    if (frameTime >= frameDuration)
+    while (frameTime >= frameDuration)
     {
-        frameTime = 0.0f;
-        animations[currentAnimationIndex].currentFrame++;
-
-        // restart animation
-        if (animations[currentAnimationIndex].currentFrame >= animations[currentAnimationIndex].numFrames)
-        {
-            animations[currentAnimationIndex].currentFrame = 0;
-        }
+        frameTime -= frameDuration;
+        anim.currentFrame = (anim.currentFrame + 1) % anim.numFrames;
     }
 }
 

@@ -32,6 +32,8 @@ void Player::drawPlayer() const
     animationHandler.drawAnimation(texture, position);
 }
 
+
+
 void Player::handleInput(Input input)
 {
     state_->handleInput(*this, input);
