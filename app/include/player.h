@@ -6,9 +6,25 @@
 #include <raylib.h>
 #include "animation.h"
 #include "input.h"
+#include <fstream>
+
+enum class PlayerStateName
+{
+    Idle,
+    Running,
+    Jumping,
+    Attacking,
+};
+
+inline std::unordered_map<std::string, PlayerStateName> stringToState = {
+    {"idle", PlayerStateName::Idle},
+    {"running", PlayerStateName::Running},
+    {"jumping", PlayerStateName::Jumping},
+    {"attacking", PlayerStateName::Attacking}
+};
 
 class Player;
-// TODO: Implement player state classes
+
 class PlayerState
 {
 public:
@@ -20,15 +36,13 @@ public:
 class Player
 {
 public:
-    Player(const char *textureFilePath, const char *animationJSONpath, float _playerHeight, float _playerWidth, int _speed, Rectangle _position);
+    Player(const char *animationJSONpath, float _playerHeight, float _playerWidth, int _speed, Rectangle _position);
     void drawPlayer() const;
-
+    void changeState(PlayerStateName newState);
 
     virtual ~Player() {}
     virtual void handleInput(Input input);
     virtual void update();
-    // set state depending on input
-    // void SetState(PlayerState state);
 
     AnimationHandler animationHandler;
     float height;
@@ -38,6 +52,7 @@ public:
 
 private:
     Texture texture{};
+    std::unordered_map<PlayerStateName, std::string> texturePaths;
     PlayerState* state_;
 };
 
@@ -47,3 +62,12 @@ public:
     void handleInput(Player& player, Input input) override;
     void update(Player& player) override;
 };
+
+class RunningState : public PlayerState
+{
+public:
+    void handleInput(Player& player, Input input) override;
+    void update(Player& player) override;
+};
+
+

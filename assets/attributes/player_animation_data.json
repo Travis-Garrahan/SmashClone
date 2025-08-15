@@ -1,0 +1,29 @@
+{
+    "redman":
+    {
+        "atlas": "assets/redman_atlas.png",
+            "animations": [
+                {
+                    "name": "idle",
+                    "frames_per_second": 2,
+                    "num_frames": 2,
+                    "x": 0,
+                    "y": 0,
+                    "frame_width": 512,
+                    "frame_height": 512,
+                    "default": false
+                },
+                {
+                    "name": "run",
+                    "frames_per_second": 23,
+                    "num_frames": 10,
+                    "x": 0,
+                    "y": 512,
+                    "frame_width": 512,
+                    "frame_height": 512,
+                    "default": true
+                }
+            ]
+        }
+}
+

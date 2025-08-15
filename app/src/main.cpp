@@ -33,13 +33,10 @@ int main() {
 
     // Player Setup
     // --------------------------------------------------------------------------------------------
-    Player player(R"(assets/run sheet.png)",
-        R"(assets/attributes/animation.json)",
+    Player player(R"(assets/attributes/player_animation_data.json)",
         512.0f, 512.0f, 5,
         (Rectangle){200, 200, 128.0f, 128.0f});
 
-
-    std::cout << player.animationHandler.getCurrentAnimation().numFrames << std::endl;
 
     // Main game loop
     //---------------------------------------------------------------------------------------------
@@ -48,7 +45,8 @@ int main() {
         //-----------------------------------------------------------------------------------------
         player.animationHandler.updateAnimation();
         // Update
-        //-----------------------------------------------------------------------------------------
+
+        //-----------------------------------------------------------------------------------------=
         // End update
 
         // Draw
