@@ -15,8 +15,8 @@
                 },
                 {
                     "name": "run",
-                    "frames_per_second": 23,
-                    "num_frames": 10,
+                    "frames_per_second": 5,
+                    "num_frames": 12,
                     "x": 0,
                     "y": 512,
                     "frame_width": 512,

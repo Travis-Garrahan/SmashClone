@@ -1,7 +1,6 @@
 #include "animation.h"
 #include <fstream>
 #include <iostream>
-#include <utility>
 #include <vector>
 
 
@@ -83,7 +82,7 @@ void AnimationHandler::updateAnimation()
     Animation& anim = animations[currentAnimationIndex];
 
     frameTime += GetFrameTime();
-    float frameDuration = 1.0f / animations[currentAnimationIndex].framesPerSecond;
+    float frameDuration = 1.0f / static_cast<float>(animations[currentAnimationIndex].framesPerSecond);
 
     while (frameTime >= frameDuration)
     {
