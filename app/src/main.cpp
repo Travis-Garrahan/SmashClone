@@ -35,7 +35,7 @@ int main() {
     // --------------------------------------------------------------------------------------------
     Player player(R"(assets/attributes/player_animation_data.json)",
         512.0f, 512.0f, 200,
-        (Rectangle){200, 200, 128.0f, 128.0f});
+        (Rectangle){200, 100, 256.0f, 256.0f});
 
 
     // Main game loop

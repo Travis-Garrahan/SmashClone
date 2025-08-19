@@ -15,7 +15,6 @@ void AnimationHandler::setCurrentAnimation(std::string_view name)
     }
 }
 
-
 AnimationHandler::AnimationHandler(const char* filePath)
 {
     // AnimationHandler will set whatever animation is marked "default"
