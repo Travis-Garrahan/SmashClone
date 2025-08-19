@@ -23,6 +23,14 @@ void RunningState::handleInput(Player& player, const Input input)
     {
         player.changeState(&player.idleState);
     }
+    if (input.moveLeft)
+    {
+        player.facingDirection = Player::FacingDirection::LEFT;
+    }
+    else if (input.moveRight)
+    {
+        player.facingDirection = Player::FacingDirection::RIGHT;
+    }
 }
 
 void RunningState::update(Player& player, const Input input)

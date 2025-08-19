@@ -20,17 +20,31 @@ Player::Player(
 
     const auto& atlasPath = j["redman"]["atlas"].get<std::string>();
 
+    facingDirection = FacingDirection::RIGHT;
     texture = LoadTexture(atlasPath.c_str());
     height = _playerHeight;
     width = _playerWidth;
     speed = _speed;
     position = _position;
+
+
 }
 
 
 void Player::drawPlayer() const
 {
-    animationHandler.drawAnimation(texture, position);
+    Rectangle src = animationHandler.currentAnimation->getFrameRec();
+    Rectangle dest = position;
+
+    if (facingDirection == FacingDirection::RIGHT)
+    {
+        DrawTexturePro(texture, src, dest, {0,0}, 0.0f, WHITE);
+    }
+    else
+    {
+        src.width = -src.width;
+        DrawTexturePro(texture, src, dest, {0,0}, 0.0f, WHITE);
+    }
 }
 
 void Player::changeState(PlayerState* newState)

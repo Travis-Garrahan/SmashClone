@@ -20,6 +20,10 @@ struct Animation
 
     [[nodiscard]] Rectangle getFrameRec() const
     {
+
+        //if facing left
+
+        // if facing right
         return Rectangle{
             frameRecStart.x + static_cast<float>(currentFrame) * static_cast<float>(frameWidth),
             frameRecStart.y,
@@ -41,7 +45,6 @@ public:
 
     void updateAnimation();
     void setCurrentAnimation(std::string_view name);
-    void drawAnimation(const Texture2D &spriteSheet, Rectangle dest) const;
 
 private:
     std::unordered_map<std::string, Animation> animationMap;

@@ -72,11 +72,3 @@ void AnimationHandler::updateAnimation()
     }
 }
 
-void AnimationHandler::drawAnimation(const Texture2D &spriteSheet, const Rectangle dest) const
-{
-    DrawTexturePro(spriteSheet,
-        currentAnimation->getFrameRec(),
-        dest,
-        {0,0},
-        0.0f, WHITE);
-}

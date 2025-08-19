@@ -16,12 +16,14 @@ public:
     virtual ~Player() = default;
     void drawPlayer() const;
     void changeState(PlayerState* newState);
+    enum class FacingDirection{RIGHT,LEFT,};
 
     virtual void handleInput(Input input);
     virtual void update(Input input);
 
 
     AnimationHandler animationHandler;
+    FacingDirection facingDirection;
     float height;
     float width;
     int speed;
@@ -32,6 +34,5 @@ public:
 
 
 private:
-
     Texture texture{};
 };
