@@ -7,8 +7,8 @@
 int main() {
     // Initialization
     //---------------------------------------------------------------------------------------------
-    constexpr int screenWidth = 800;
-    constexpr int screenHeight = 450;
+    constexpr int screenWidth = 1024;
+    constexpr int screenHeight = 768;
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
     SetTargetFPS(60);
     rlImGuiSetup(true);
@@ -35,7 +35,7 @@ int main() {
     // --------------------------------------------------------------------------------------------
     Player player(R"(assets/attributes/player_animation_data.json)",
         512.0f, 512.0f, 200,
-        (Rectangle){200, 100, 256.0f, 256.0f});
+        (Rectangle){200, 200, 256.0f, 256.0f});
 
 
     // Main game loop

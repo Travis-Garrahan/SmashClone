@@ -27,6 +27,8 @@ public:
     float height;
     float width;
     int speed;
+    Vector2 velocity;
+    float gravity;
     Rectangle position{};
     IdleState idleState;
     RunningState runningState;

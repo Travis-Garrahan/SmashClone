@@ -4,6 +4,7 @@
 #include "player.h"
 #include "states.h"
 #include <fstream>
+#include <imgui.h>
 
 Player::Player(
                const char* animationJSONpath,
@@ -24,10 +25,10 @@ Player::Player(
     texture = LoadTexture(atlasPath.c_str());
     height = _playerHeight;
     width = _playerWidth;
+    gravity = 0.5;
+    velocity = Vector2{ 0.0f, 0.0f };
     speed = _speed;
     position = _position;
-
-
 }
 
 
@@ -60,6 +61,20 @@ void Player::handleInput(Input input)
 void Player::update(Input input)
 {
     currentState->update(*this, input);
+
+    velocity.y += gravity;
+    position.y += velocity.y;
+
+    // floor collision check
+    float playerBottomY = position.y + position.height;
+    auto floorY = static_cast<float>(GetScreenHeight());
+
+    if (playerBottomY >= floorY)
+    {
+        position.y = floorY - position.height;
+        velocity.y = 0;
+    }
+
 }
 
 
