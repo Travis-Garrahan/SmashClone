@@ -34,3 +34,12 @@ public:
     void handleInput(Player& player, Input input) override;
     void update(Player& player, Input input) override;
 };
+
+class JumpingState : public PlayerState
+{
+    bool appliedImpulse = false;
+
+public:
+    void handleInput(Player& player, Input input) override;
+    void update(Player& player, Input input) override;
+};

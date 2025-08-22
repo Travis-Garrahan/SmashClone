@@ -4,7 +4,6 @@
 #include "player.h"
 #include "states.h"
 #include <fstream>
-#include <imgui.h>
 
 Player::Player(
                const char* animationJSONpath,
@@ -53,6 +52,18 @@ void Player::changeState(PlayerState* newState)
     currentState = newState;
 }
 
+bool Player::isGrounded()
+{
+    const float playerBottomY = position.y + position.height;
+    auto floorY = static_cast<float>(GetScreenHeight());
+
+    if (playerBottomY >= floorY)
+    {
+        return true;
+    }
+    return false;
+}
+
 void Player::handleInput(Input input)
 {
     currentState->handleInput(*this, input);
@@ -66,15 +77,12 @@ void Player::update(Input input)
     position.y += velocity.y;
 
     // floor collision check
-    float playerBottomY = position.y + position.height;
     auto floorY = static_cast<float>(GetScreenHeight());
-
-    if (playerBottomY >= floorY)
+    if (isGrounded())
     {
         position.y = floorY - position.height;
         velocity.y = 0;
     }
-
 }
 
 

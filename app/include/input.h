@@ -14,7 +14,8 @@ struct Input
     bool faceLeft = false;
     bool faceRight = false;
 
-    [[nodiscard]] bool isMoving() const {return moveLeft || moveRight;}
+    [[nodiscard]] bool movementKeyPressed() const {return moveLeft || moveRight;}
+    [[nodiscard]] bool jumpKeyPressed() const {return jump;}
 };
 
 inline Input pollInput()
@@ -22,7 +23,11 @@ inline Input pollInput()
     Input input;
     input.moveLeft = IsKeyDown(KEY_LEFT);
     input.moveRight = IsKeyDown(KEY_RIGHT);
+
     input.faceLeft = IsKeyPressed(KEY_LEFT);
     input.faceRight = IsKeyPressed(KEY_RIGHT);
+
+    input.jump = IsKeyPressed(KEY_SPACE);
+
     return input;
 }

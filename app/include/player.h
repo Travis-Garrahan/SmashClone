@@ -17,6 +17,7 @@ public:
     void drawPlayer() const;
     void changeState(PlayerState* newState);
     enum class FacingDirection{RIGHT,LEFT,};
+    bool isGrounded();
 
     virtual void handleInput(Input input);
     virtual void update(Input input);
@@ -29,9 +30,11 @@ public:
     int speed;
     Vector2 velocity;
     float gravity;
+
     Rectangle position{};
     IdleState idleState;
     RunningState runningState;
+    JumpingState jumpingState;
     PlayerState* currentState;
 
 

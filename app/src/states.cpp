@@ -6,9 +6,14 @@
 
 void IdleState::handleInput(Player& player, const Input input)
 {
-    if (input.isMoving())
+    if (input.movementKeyPressed())
     {
         player.changeState(&player.runningState);
+    }
+
+    if (input.jumpKeyPressed())
+    {
+        player.changeState(&player.jumpingState);
     }
 }
 
@@ -19,7 +24,7 @@ void IdleState::update(Player& player, const Input input)
 
 void RunningState::handleInput(Player& player, const Input input)
 {
-    if (!input.isMoving())
+    if (!input.movementKeyPressed())
     {
         player.changeState(&player.idleState);
     }
@@ -39,4 +44,24 @@ void RunningState::update(Player& player, const Input input)
 
     if (input.moveLeft) player.position.x -= static_cast<float>(player.speed) * GetFrameTime();
     if (input.moveRight) player.position.x += static_cast<float>(player.speed) * GetFrameTime();
+}
+
+void JumpingState::handleInput(Player& player, const Input input)
+{
+
+}
+
+void JumpingState::update(Player& player, const Input input)
+{
+    if (!appliedImpulse)
+    {
+        player.velocity.y = -20;
+        appliedImpulse = true;
+    }
+
+    if (player.isGrounded())
+    {
+        appliedImpulse = false;
+        player.changeState(&player.idleState);
+    }
 }
