@@ -10,6 +10,8 @@ add_executable(SmashClone
         include/player.h
         include/states.h
         src/states.cpp
+        src/game.cpp
+        include/game.h
 )
 
 
