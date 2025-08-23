@@ -6,18 +6,12 @@
 #include "game.h"
 
 int main() {
-    // Initialization
-    //---------------------------------------------------------------------------------------------
     Game::init();
 
-    // Player Setup
-    // --------------------------------------------------------------------------------------------
     Player player(R"(assets/attributes/player_animation_data.json)",
         512.0f, 512.0f, 200,
         (Rectangle){200, 200, 256.0f, 256.0f});
 
-    // Main game loop
-    //---------------------------------------------------------------------------------------------
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         Game::update(player);
