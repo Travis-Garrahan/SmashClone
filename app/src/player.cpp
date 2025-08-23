@@ -47,6 +47,15 @@ void Player::drawPlayer() const
     }
 }
 
+void Player::drawHitbox()
+{
+    DrawRectangleLines(static_cast<int>(hitbox.x),
+        static_cast<int>(hitbox.y),
+        static_cast<int>(hitbox.width),
+        static_cast<int>(hitbox.height),
+        RED);
+}
+
 void Player::changeState(PlayerState* newState)
 {
     currentState = newState;

@@ -12,6 +12,7 @@ add_executable(SmashClone
         src/states.cpp
         src/game.cpp
         include/game.h
+        include/collisions.h
 )
 
 

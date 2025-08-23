@@ -15,6 +15,7 @@ public:
     Player(const char *animationJSONpath, float _playerHeight, float _playerWidth, int _speed, Rectangle _position);
     virtual ~Player() = default;
     void drawPlayer() const;
+    void drawHitbox();
     void changeState(PlayerState* newState);
     enum class FacingDirection{RIGHT,LEFT,};
     bool isGrounded();
@@ -37,6 +38,7 @@ public:
     JumpingState jumpingState;
     PlayerState* currentState;
 
+    Rectangle hitbox{};
 
 private:
     Texture texture{};
