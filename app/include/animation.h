@@ -5,26 +5,31 @@
 #include <raylib.h>
 #include <nlohmann/json.hpp>
 
+enum class AnimationType
+{
+    ONESHOT,
+    LOOP
+};
+
 struct Animation
 {
+
     std::string name;                 // "name" from JSON
     unsigned int framesPerSecond{1};  // "frames_per_second"
     unsigned int numFrames{1};        // "num_frames"
-    Vector2 frameRecStart{};        // "x" and "y" in the atlas
+    Vector2 frameRecStart{};          // "x" and "y" in the atlas
     unsigned int frameWidth{};        // "frame_width"
     unsigned int frameHeight{};       // "frame_height"
     bool isDefault{false};            // "default" in JSON
     unsigned int currentFrame{0};     // internal state, starts at 0
 
-    Rectangle frameRec{};
+    AnimationType type = AnimationType::LOOP;
+    bool finished = false;            // for ONESHOT animations
 
     [[nodiscard]] Rectangle getFrameRec() const
     {
-
-        //if facing left
-
-        // if facing right
-        return Rectangle{
+        return Rectangle
+        {
             frameRecStart.x + static_cast<float>(currentFrame) * static_cast<float>(frameWidth),
             frameRecStart.y,
             static_cast<float>(frameWidth),
@@ -45,6 +50,7 @@ public:
 
     void updateAnimation();
     void setCurrentAnimation(std::string_view name);
+    bool isAnimationFinished() const;
 
 private:
     std::unordered_map<std::string, Animation> animationMap;

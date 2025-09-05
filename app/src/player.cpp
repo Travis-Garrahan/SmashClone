@@ -5,6 +5,7 @@
 #include "states.h"
 #include <fstream>
 
+
 Player::Player(
                const char* animationJSONpath,
                const float _playerHeight,
@@ -47,18 +48,13 @@ void Player::drawPlayer() const
     }
 }
 
-void Player::drawHitbox()
-{
-    DrawRectangleLines(static_cast<int>(hitbox.x),
-        static_cast<int>(hitbox.y),
-        static_cast<int>(hitbox.width),
-        static_cast<int>(hitbox.height),
-        RED);
-}
 
 void Player::changeState(PlayerState* newState)
 {
+    if (currentState == newState) return;
+
     currentState = newState;
+    currentState->onEnter(*this);
 }
 
 bool Player::isGrounded()

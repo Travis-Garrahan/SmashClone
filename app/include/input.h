@@ -5,6 +5,8 @@
 #pragma once
 #include "raylib.h"
 
+
+
 struct Input
 {
     bool moveLeft = false;
@@ -16,6 +18,7 @@ struct Input
 
     [[nodiscard]] bool movementKeyPressed() const {return moveLeft || moveRight;}
     [[nodiscard]] bool jumpKeyPressed() const {return jump;}
+    [[nodiscard]] bool attackKeyPressed() const {return attack;}
 };
 
 inline Input pollInput()
@@ -28,6 +31,8 @@ inline Input pollInput()
     input.faceRight = IsKeyPressed(KEY_RIGHT);
 
     input.jump = IsKeyPressed(KEY_SPACE);
+
+    input.attack = IsKeyPressed(KEY_Z);
 
     return input;
 }

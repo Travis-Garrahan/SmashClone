@@ -11,7 +11,8 @@
                 "y": 0,
                 "frame_width": 512,
                 "frame_height": 512,
-                "default": true
+                "default": true,
+                "type" : "loop"
             },
             {
                 "name": "running",
@@ -21,7 +22,19 @@
                 "y": 512,
                 "frame_width": 512,
                 "frame_height": 512,
-                "default": false
+                "default": false,
+                "type" : "loop"
+            },
+            {
+                "name": "punching",
+                "frames_per_second": 10,
+                "num_frames": 9,
+                "x": 0,
+                "y": 1536,
+                "frame_width": 512,
+                "frame_height": 512,
+                "default": false,
+                "type" : "oneshot"
             }
         ]
     }

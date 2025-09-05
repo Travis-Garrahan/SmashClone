@@ -52,7 +52,6 @@ void Game::draw(Player& player)
 
     ImGui::Render();
     player.drawPlayer();
-    player.drawHitbox();
 
     rlImGuiEnd();
     EndDrawing();
