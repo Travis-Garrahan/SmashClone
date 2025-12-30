@@ -8,9 +8,11 @@
 int main() {
     Game::init();
 
+    Rectangle startingPos = { 200, 200, 256.0f, 256.0f };
+
     Player player(R"(assets/attributes/player_animation_data.json)",
         512.0f, 512.0f, 200,
-        (Rectangle){200, 200, 256.0f, 256.0f});
+        startingPos);
 
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
