@@ -1,6 +1,3 @@
-[submodule "app/rlImgui/rlImGui"]
-	path = app/rlImgui/rlImGui
-	url = https://github.com/raylib-extras/rlImGui
 [submodule "app/thirdparty/rlImGui"]
 	path = app/thirdparty/rlImGui
 	url = https://github.com/raylib-extras/rlImGui
