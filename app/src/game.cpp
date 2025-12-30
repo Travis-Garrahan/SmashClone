@@ -8,6 +8,9 @@
 #include "imgui.h"
 #include "input.h"
 
+bool paused = false;
+
+
 void Game::init()
 {
     constexpr int screenWidth = 1024;
@@ -16,31 +19,30 @@ void Game::init()
     SetTargetFPS(60);
     rlImGuiSetup(true);
 
-    // Imgui Window setup, flags will make window transparent with no title
-    // --------------------------------------------------------------------------------------------
-    ImGuiWindowFlags window_flags =
-            ImGuiWindowFlags_NoTitleBar        // No title bar
-            | ImGuiWindowFlags_NoResize          // Disable resizing
-            | ImGuiWindowFlags_NoMove            // Disable moving
-            | ImGuiWindowFlags_NoScrollbar       // No scrollbars
-            | ImGuiWindowFlags_NoCollapse        // Disable collapsing
-            | ImGuiWindowFlags_NoSavedSettings   // Don’t save settings (position, size, etc.)
-            | ImGuiWindowFlags_NoFocusOnAppearing // Don’t steal focus when appearing
-            | ImGuiWindowFlags_NoNav;
+    // disable ESC closing app
+    SetExitKey(0);
 
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    // --------------------------------------------------------------------------------------------
-    // End Imgui setup
 }
 
 void Game::update(Player& player)
 {
     Input input = pollInput();
     player.handleInput(input);
-    player.update(input);
-    player.animationHandler.updateAnimation();
+
+    if (IsKeyPressed(KEY_ESCAPE))
+    {
+        paused = !paused;
+    }
+
+
+
+    if (!paused)
+    {
+        player.update(input);
+        player.animationHandler.updateAnimation();
+    }  
+
+
 }
 
 void Game::draw(Player& player)
@@ -48,13 +50,47 @@ void Game::draw(Player& player)
     BeginDrawing();
     ClearBackground(RAYWHITE);
 
-    rlImGuiBegin();
-
-    ImGui::Render();
     player.drawPlayer();
 
-    rlImGuiEnd();
+    if (paused)
+    {
+        pause();
+    }
+
     EndDrawing();
+}
+
+void Game::pause()
+{
+    rlImGuiBegin();
+
+    ImGui::SetNextWindowSize(ImVec2(200, 300), ImGuiCond_Always);
+    ImGui::SetNextWindowPos(ImVec2(GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+
+    ImGui::Begin(
+        "Pause Menu",
+        nullptr,
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoMove
+    );
+
+    ImGui::Text("Paused");
+    ImGui::Spacing();
+    
+    if (ImGui::Button("Resume"))
+    {
+        paused = false;
+    }
+
+    if (ImGui::Button("Quit"))
+    {
+        CloseWindow();
+    }
+
+    ImGui::End();
+
+    rlImGuiEnd();
 }
 
 void Game::exit()
