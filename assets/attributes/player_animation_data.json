@@ -6,13 +6,14 @@
             {
                 "name": "idle",
                 "frames_per_second": 4,
-                "num_frames": 3,
+                "num_frames": 3, 
                 "x": 0,
                 "y": 0,
                 "frame_width": 512,
                 "frame_height": 512,
                 "default": true,
-                "type" : "loop"
+                "type" : "loop",
+                "isAttack": false
             },
             {
                 "name": "running",
@@ -23,7 +24,8 @@
                 "frame_width": 512,
                 "frame_height": 512,
                 "default": false,
-                "type" : "loop"
+                "type" : "loop",
+                "isAttack": false
             },
             {
                 "name": "punching",
@@ -34,7 +36,8 @@
                 "frame_width": 512,
                 "frame_height": 512,
                 "default": false,
-                "type" : "oneshot"
+                "type" : "oneshot",
+                "isAttack": true
             }
         ]
     }

@@ -19,7 +19,6 @@ int main() {
         Game::update(player);
         Game::draw(player);
     }
-    Game::exit();
 
     return 0;
 }

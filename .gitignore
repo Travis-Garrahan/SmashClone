@@ -1,7 +1,9 @@
 build/
 libs/
 cmake-build-debug/
-=======
-cmake-build-debug/
 .idea
 .vs
+SmashClone
+SmashClone.exe
+SmashClone.ilk
+SmashClone.pdb

@@ -19,8 +19,11 @@ public:
     static void init();
     static void update(Player& player);
     static void draw(Player& player);
-    static void pause();
+    static void drawPauseMenu();
     static void exit();
+
+    static bool shouldQuit;
+    static bool shouldPause;
 };
 
 

@@ -8,8 +8,8 @@
 #include "imgui.h"
 #include "input.h"
 
-bool paused = false;
-
+bool Game::shouldPause = false;
+bool Game::shouldQuit = false;
 
 void Game::init()
 {
@@ -31,18 +31,19 @@ void Game::update(Player& player)
 
     if (IsKeyPressed(KEY_ESCAPE))
     {
-        paused = !paused;
+        shouldPause = !shouldPause;
     }
 
-
-
-    if (!paused)
+    if (!shouldPause)
     {
         player.update(input);
         player.animationHandler.updateAnimation();
-    }  
+    }
 
-
+    if (shouldQuit)
+    {
+        exit();
+    }
 }
 
 void Game::draw(Player& player)
@@ -52,15 +53,15 @@ void Game::draw(Player& player)
 
     player.drawPlayer();
 
-    if (paused)
+    if (shouldPause)
     {
-        pause();
+        drawPauseMenu();
     }
 
     EndDrawing();
 }
 
-void Game::pause()
+void Game::drawPauseMenu()
 {
     rlImGuiBegin();
 
@@ -80,12 +81,12 @@ void Game::pause()
     
     if (ImGui::Button("Resume"))
     {
-        paused = false;
+        shouldPause = false;
     }
 
     if (ImGui::Button("Quit"))
     {
-        CloseWindow();
+        shouldQuit = true;
     }
 
     ImGui::End();

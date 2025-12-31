@@ -13,7 +13,6 @@ enum class AnimationType
 
 struct Animation
 {
-
     std::string name;                 // "name" from JSON
     unsigned int framesPerSecond{1};  // "frames_per_second"
     unsigned int numFrames{1};        // "num_frames"
@@ -55,4 +54,5 @@ public:
 private:
     std::unordered_map<std::string, Animation> animationMap;
     int currentAnimationIndex{};
+
 };

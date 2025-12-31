@@ -16,7 +16,7 @@ void AnimationHandler::setCurrentAnimation(const std::string_view name)
     }
 
     currentAnimation->currentFrame = 0;
-    currentAnimation->finished = false; // important for oneshot animations
+    currentAnimation->finished = false; // for oneshot animations
     frameTime = 0.0f;
 }
 
@@ -34,10 +34,11 @@ AnimationHandler::AnimationHandler(const char* filePath)
 
     for (const auto& animData : json["redman"]["animations"])
     {
+        // determine animation type
         std::string typeStr = animData.value("type", "loop");
         AnimationType type = (typeStr == "oneshot") ? AnimationType::ONESHOT : AnimationType::LOOP;
 
-
+        // construct an animation object
             Animation anim{
                 animData["name"].get<std::string>(),                  // name
                 animData["frames_per_second"].get<unsigned int>(),    // framesPerSecond
@@ -52,8 +53,11 @@ AnimationHandler::AnimationHandler(const char* filePath)
                 0,                                                     // currentFrame
                 type
             };
+
+        // store animation in map, to allow for lookup by string
         animationMap[anim.name] = anim;
 
+        // set default animation if any
         if (anim.isDefault && !currentAnimation)
             currentAnimation = &animationMap[anim.name];
     }
