@@ -37,9 +37,18 @@
                 "frame_height": 512,
                 "default": false,
                 "type" : "oneshot",
-                "isAttack": true
+                "activeStartFrame": 5,
+                "activeEndFrame":  7
             }
-        ]
+        ],
+      "attacks": [
+          {
+            "name": "punch",
+            "animation": "punching",
+            "activeStartFrame": 5,
+            "activeEndFrame": 7 
+          }
+      ]
     }
 }
 

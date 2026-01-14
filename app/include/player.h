@@ -8,6 +8,14 @@
 #include "input.h"
 #include "states.h"
 
+struct Hitbox
+{
+    bool isActive;
+    Vector2 position;
+    float height;
+    float width;
+};
+
 class Player
 {
 public:
@@ -28,6 +36,10 @@ public:
     int speed;
     Vector2 velocity{};
     float gravity;
+    
+    int attackStartActiveFrame{};
+    int attackEndActiveFrame{};
+    Hitbox hitbox{};
 
     Rectangle position{};
     IdleState idleState;

@@ -3,6 +3,8 @@
 //
 #include "player.h"
 #include "states.h"
+#include <nlohmann/json.hpp>
+#include <fstream>
 
 void IdleState::onEnter(Player& player)
 {
@@ -110,6 +112,11 @@ void JumpingState::update(Player& player, const Input input)
 void AttackingState::onEnter(Player& player)
 {
     player.animationHandler.setCurrentAnimation("punching");
+    
+    float hitBoxOffsetX = player.width / 4 + 50;
+
+    player.hitbox.position.x = player.position.x + hitBoxOffsetX;
+    player.hitbox.position.y = player.position.y + player.height / 4;
 }
 
 void AttackingState::handleInput(Player& player, const Input input)
@@ -120,9 +127,31 @@ void AttackingState::handleInput(Player& player, const Input input)
 void AttackingState::update(Player& player, const Input input)
 {
     DrawText(TextFormat("Attacking state"), 100, 100, 50, BLACK);
+    DrawText(TextFormat("Frames: %d", player.animationHandler.currentAnimation->currentFrame), 150, 150, 50, BLACK);
+
+
+    // activate hitbox
+    if (player.animationHandler.currentAnimation->currentFrame >= player.attackStartActiveFrame &&
+        player.animationHandler.currentAnimation->currentFrame < player.attackEndActiveFrame)
+    {
+        player.hitbox.isActive = true;
+    }
+    else
+    {
+        player.hitbox.isActive = false;
+    }
+
+
+
+    if (player.hitbox.isActive)
+    {
+        DrawText(TextFormat("Hitbox active"), 100, 200, 50, BLACK);
+        DrawRectangle(player.hitbox.position.x, player.hitbox.position.y, player.hitbox.width, player.hitbox.height, GREEN);
+    }
 
     if (player.animationHandler.isAnimationFinished())
     {
+        player.hitbox.isActive = false;
         player.changeState(&player.idleState);
     }
 }

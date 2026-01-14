@@ -16,8 +16,7 @@ Player::Player(
     currentState(&idleState)
 {
     std::ifstream file("assets/attributes/player_animation_data.json");
-    nlohmann::json j;
-    file >> j;
+    nlohmann::json j = nlohmann::json::parse(file);
 
     const auto& atlasPath = j["redman"]["atlas"].get<std::string>();
 
@@ -29,6 +28,9 @@ Player::Player(
     velocity = Vector2{ 0.0f, 0.0f };
     speed = _speed;
     position = _position;
+    attackStartActiveFrame = j["redman"]["attacks"][0]["activeStartFrame"].get<int>();
+    attackEndActiveFrame = j["redman"]["attacks"][0]["activeEndFrame"].get<int>();
+    hitbox = { false, Vector2(position.x, position.y), 25, 25 };
 }
 
 

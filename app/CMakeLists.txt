@@ -13,7 +13,7 @@ add_executable(SmashClone
         src/game.cpp
         include/game.h
         include/collisions.h
- "src/attack.cpp" "include/attack.h")
+  )
 
 
 # include app's own headers
