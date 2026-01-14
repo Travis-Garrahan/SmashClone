@@ -76,6 +76,15 @@ void RunningState::update(Player& player, const Input input)
 
 void JumpingState::onEnter(Player& player)
 {
+    player.animationHandler.setCurrentAnimation("jumpsquat");
+
+    leftGround = false;
+    inJumpSquat = true;
+    appliedImpulse = false;
+    jumpState = jumpsquat;
+
+    if (jumpFrameCounter == -1)
+        jumpFrameCounter = 0;
 }
 
 void JumpingState::handleInput(Player& player, const Input input)
@@ -86,8 +95,30 @@ void JumpingState::handleInput(Player& player, const Input input)
 void JumpingState::update(Player& player, const Input input)
 {
     DrawText(TextFormat("In Jumping State"), 100 , 100, 50, BLACK);
+    DrawText(TextFormat("JumpSquat: %d", inJumpSquat), 100, 150, 50, BLACK);
 
-    if (!appliedImpulse)
+    if (jumpFrameCounter >= 0)
+    {
+        jumpFrameCounter++;
+    }
+
+    if (jumpFrameCounter >= jumpDelayFrames)
+    {
+        inJumpSquat = false;
+
+        if (jumpState == jumpsquat && player.animationHandler.isAnimationFinished()) {
+            player.animationHandler.setCurrentAnimation("takeoff");
+            jumpState = takeoff;
+        }
+
+        if (jumpState == takeoff && player.animationHandler.isAnimationFinished()) {
+            player.animationHandler.setCurrentAnimation("falling");
+            jumpState = falling;
+        }
+    }
+
+
+    if (jumpState == jumpsquat && !appliedImpulse)
     {
         player.velocity.y = -20;
         appliedImpulse = true;
@@ -101,10 +132,16 @@ void JumpingState::update(Player& player, const Input input)
          return; // still on takeoff frame
     }
 
-    if (player.isGrounded())
+    if (player.isGrounded() && jumpState != landing)
     {
-        appliedImpulse = false;
-        player.changeState(&player.idleState);
+        jumpState = landing;
+        player.animationHandler.setCurrentAnimation("landing");
+    }
+
+    if (jumpState == landing) {
+        if (player.animationHandler.isAnimationFinished()) {
+            player.changeState(&player.idleState);
+        }
     }
 }
 
@@ -140,8 +177,6 @@ void AttackingState::update(Player& player, const Input input)
     {
         player.hitbox.isActive = false;
     }
-
-
 
     if (player.hitbox.isActive)
     {

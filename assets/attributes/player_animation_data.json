@@ -39,6 +39,54 @@
                 "type" : "oneshot",
                 "activeStartFrame": 5,
                 "activeEndFrame":  7
+            },
+            {
+                "name": "jumpsquat",
+                "frames_per_second": 60,
+                "num_frames": 3,
+                "x": 0,
+                "y": 2048,
+                "frame_width": 512,
+                "frame_height": 512,
+                "default": false,
+                "type": "oneshot",
+                "isAttack": false
+            },
+            {
+                "name": "takeoff",
+                "frames_per_second": 10,
+                "num_frames": 4,
+                "x": 1536,
+                "y": 2048,
+                "frame_width": 512,
+                "frame_height": 512,
+                "default": false,
+                "type": "oneshot",
+                "isAttack": false
+            },
+            {
+                "name": "falling",
+                "frames_per_second": 5,
+                "num_frames": 2,
+                "x": 2560,
+                "y": 2048,
+                "frame_width": 512,
+                "frame_height": 512,
+                "default": false,
+                "type": "loop",
+                "isAttack": false
+            },
+            {
+                "name": "landing",
+                "frames_per_second": 30,
+                "num_frames": 5,
+                "x": 0,
+                "y": 2560,
+                "frame_width": 512,
+                "frame_height": 512,
+                "default": false,
+                "type": "oneshot",
+                "isAttack": false
             }
         ],
       "attacks": [

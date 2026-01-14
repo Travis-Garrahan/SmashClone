@@ -40,7 +40,19 @@ class JumpingState : public PlayerState
 {
     bool appliedImpulse = false;
     bool leftGround = false;
+    bool inJumpSquat = false;
+    int jumpDelayFrames = 3;
+    int jumpFrameCounter = -1;
 
+    enum JumpState
+    {
+        jumpsquat,
+        takeoff,
+        falling,
+        landing,
+    };
+
+    JumpState jumpState = jumpsquat;
 public:
     void onEnter(Player& player) override;
     void handleInput(Player& player, Input input) override;
