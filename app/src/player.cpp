@@ -10,7 +10,7 @@ Player::Player(
                const char* animationJSONpath,
                const float _playerHeight,
                const float _playerWidth,
-               const int _speed,
+               const float _speed,
                const Rectangle _position)
     : animationHandler(animationJSONpath),
     currentState(&idleState)
@@ -27,6 +27,9 @@ Player::Player(
     gravity = 0.5;
     velocity = Vector2{ 0.0f, 0.0f };
     speed = _speed;
+    airSpeed = 5.0f;
+    maxAirSpeed = 500;
+    acceleration = 7;
     position = _position;
     attackStartActiveFrame = j["redman"]["attacks"][0]["activeStartFrame"].get<int>();
     attackEndActiveFrame = j["redman"]["attacks"][0]["activeEndFrame"].get<int>();
@@ -83,10 +86,18 @@ void Player::update(Input input)
     velocity.y += gravity;
     position.y += velocity.y;
 
+    if (input.moveLeft) {
+        position.x -= velocity.x * GetFrameTime();
+    }
+
+    if (input.moveRight) {
+        position.x += velocity.x * GetFrameTime();
+    }
+
+
     // floor collision check
     auto floorY = static_cast<float>(GetScreenHeight());
-    if (isGrounded())
-    {
+    if (isGrounded()) {
         position.y = floorY - position.height;
         velocity.y = 0;
     }

@@ -19,7 +19,7 @@ struct Hitbox
 class Player
 {
 public:
-    Player(const char *animationJSONpath, float _playerHeight, float _playerWidth, int _speed, Rectangle _position);
+    Player(const char *animationJSONpath, float _playerHeight, float _playerWidth, float _speed, Rectangle _position);
     virtual ~Player() = default;
     void drawPlayer() const;
     void changeState(PlayerState* newState);
@@ -33,8 +33,10 @@ public:
     FacingDirection facingDirection;
     float height;
     float width;
-    int speed;
+    float speed;
     Vector2 velocity{};
+    float airSpeed;
+    float maxAirSpeed;
     float gravity;
     
     int attackStartActiveFrame{};
@@ -48,6 +50,8 @@ public:
     AttackingState attackingState;
 
     PlayerState* currentState;
+    float acceleration;
+
 private:
     Texture texture{};
 };
